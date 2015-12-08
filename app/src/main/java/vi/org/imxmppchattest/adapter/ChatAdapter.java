@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -61,7 +63,10 @@ public class ChatAdapter extends BaseAdapter {
         {
             convertView = layoutInflater.inflate(R.layout.activity_chat_layout_item,null);
             viewHolder = new ViewHolder();
+            viewHolder.chatFromContainer = (LinearLayout)convertView.findViewById(R.id.chart_from_container);
+            viewHolder.chatToContainer = (RelativeLayout)convertView.findViewById(R.id.chart_to_container);
             viewHolder.chatTime = (TextView)convertView.findViewById(R.id.chat_time);
+
             //接收的信息
             viewHolder.chatFromIcon = (ImageView)convertView.findViewById(R.id.chatfrom_icon);
             viewHolder.chatFromImage = (ImageView)convertView.findViewById(R.id.chatfrom_img);
@@ -77,22 +82,33 @@ public class ChatAdapter extends BaseAdapter {
         else {
             viewHolder = (ViewHolder)convertView.getTag();
         }
-        viewHolder.chatTime.setText(chatList.get(position).getTime());
-        viewHolder.chatFromText.setText(chatList.get(position).getChatFromContent());
-
-        viewHolder.chatToText.setText(chatList.get(position).getChatToContent());
-
+        viewHolder.chatTime.setText(chatList.get(position).getDate());
+        //接收的消息： 0
+        if(chatList.get(position).getIsComing() == 0)
+        {
+            viewHolder.chatToContainer.setVisibility(View.GONE);
+            viewHolder.chatFromContainer.setVisibility(View.VISIBLE);
+            viewHolder.chatFromText.setText(chatList.get(position).getContent());
+        }
+        else {
+            //发送的消息： 1
+            viewHolder.chatFromContainer.setVisibility(View.GONE);
+            viewHolder.chatToContainer.setVisibility(View.VISIBLE);
+            viewHolder.chatToText.setText(chatList.get(position).getContent());
+        }
         return convertView;
     }
 
     class ViewHolder{
         TextView chatTime;
 
+        LinearLayout chatFromContainer;
         ImageView chatFromIcon;
         TextView chatFromText;
         ImageView chatFromImage;
         ImageView chatFromLocation;
 
+        RelativeLayout chatToContainer;
         ImageView chatToIcon;
         TextView chatToText;
         ImageView chatToImage;

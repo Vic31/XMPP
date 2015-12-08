@@ -1,6 +1,7 @@
 package vi.org.imxmppchattest.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +21,7 @@ import vi.org.imxmppchattest.R;
 import vi.org.imxmppchattest.adapter.FriendListAdapter;
 import vi.org.imxmppchattest.model.Friends;
 import vi.org.imxmppchattest.model.FriendsGroup;
+import vi.org.imxmppchattest.util.Constant;
 
 /**
  * Created by Vicky on 2015/12/2.
@@ -114,8 +116,18 @@ public class FriendListActivity extends Activity implements AdapterView.OnItemCl
         }
     }
 
+    /**
+     * 启动聊天模式
+     *
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        Intent intent = new Intent(FriendListActivity.this,ChatActivity.class);
+        intent.putExtra(Constant.toId,friendsArrayList.get(position).getName());
+        startActivity(intent);
     }
 }

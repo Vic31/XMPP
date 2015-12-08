@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 
 import vi.org.imxmppchattest.activity.FriendListActivity;
+import vi.org.imxmppchattest.util.Constant;
+import vi.org.imxmppchattest.util.PreferencesUtils;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -48,6 +50,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.login_btn:
                 connectServer.login(name,pwd);
+                PreferencesUtils.putSharePre(this, Constant.fromId, name);
+                PreferencesUtils.putSharePre(this,Constant.pwd,pwd);
+
                 break;
             case R.id.contacts_btn:
                 Intent intent = new Intent(this,FriendListActivity.class);

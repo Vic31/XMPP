@@ -8,6 +8,9 @@ import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Presence;
 
+import vi.org.imxmppchattest.util.Constant;
+import vi.org.imxmppchattest.util.PreferencesUtils;
+
 /**
  * Created by Vicky on 2015/12/2.
  * IMXmppChatTest
@@ -28,7 +31,7 @@ public class ConnectServer {
             @Override
             public void run() {
                 //服务器地址ip以及端口号：5222是默认
-                config = new ConnectionConfiguration("192.168.10.111",5222);
+                config = new ConnectionConfiguration(Constant.HOST,Constant.port);
                 //是否启动安全验证
                 config.setSASLAuthenticationEnabled(false);
                 //创建connection连接
@@ -57,7 +60,6 @@ public class ConnectServer {
             if(xmppConnection != null)
             {
                 xmppConnection.login(name, pwd);
-                Log.i(TAG, "login success");
                 //type,status,priority,mode
                 //在qqdemo里面取到的是“online”这个参数
                 Presence presence = new Presence(Presence.Type.available);
@@ -68,6 +70,12 @@ public class ConnectServer {
         catch (XMPPException e)
         {
             e.printStackTrace();
+        }
+        if(xmppConnection.isAuthenticated()) {
+            Log.i(TAG, "login success");
+        }
+        else {
+            Log.i(TAG, "login failed");
         }
     }
 

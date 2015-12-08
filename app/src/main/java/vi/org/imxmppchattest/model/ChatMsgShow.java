@@ -6,91 +6,74 @@ package vi.org.imxmppchattest.model;
  * contact way: 317461087@qq.com
  */
 
+import java.io.Serializable;
+
 /**
  * 显示消息内容类
  */
-public class ChatMsgShow {
-    private String time;
+public class ChatMsgShow implements Serializable{
 
-    private String chatFromIcon;
-    private String chatFromImg;
-    private String chatFromLocation;
-    private String chatFromContent;
+    private int msgId;//id
+    private String fromUser;//别人
+    private String toUser;//自己
+    private String type;//信息类型
+    private String content;//信息内容
+    private int isComing;//0表接收的消息，1表发送的消息
+    private String date;//时间
 
-    private String chatToIcon;
-    private String chatToImg;
-    private String chatToLocation;
-    private String chatToContent;
-
-    public String getTime() {
-        return time;
+    public String getDate() {
+        return date;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setDate(String date) {
+        this.date = date;
     }
 
-    public String getChatFromIcon() {
-        return chatFromIcon;
+    public int getMsgId() {
+        return msgId;
     }
 
-    public void setChatFromIcon(String chatFromIcon) {
-        this.chatFromIcon = chatFromIcon;
+    public void setMsgId(int msgId) {
+        this.msgId = msgId;
     }
 
-    public String getChatFromImg() {
-        return chatFromImg;
+    public String getFromUser() {
+        return fromUser;
     }
 
-    public void setChatFromImg(String chatFromImg) {
-        this.chatFromImg = chatFromImg;
+    public void setFromUser(String fromUser) {
+        this.fromUser = fromUser;
     }
 
-    public String getChatFromLocation() {
-        return chatFromLocation;
+    public String getToUser() {
+        return toUser;
     }
 
-    public void setChatFromLocation(String chatFromLocation) {
-        this.chatFromLocation = chatFromLocation;
+    public void setToUser(String toUser) {
+        this.toUser = toUser;
     }
 
-    public String getChatFromContent() {
-        return chatFromContent;
+    public String getType() {
+        return type;
     }
 
-    public void setChatFromContent(String chatFromContent) {
-        this.chatFromContent = chatFromContent;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getChatToIcon() {
-        return chatToIcon;
+    public String getContent() {
+        return content;
     }
 
-    public void setChatToIcon(String chatToIcon) {
-        this.chatToIcon = chatToIcon;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public String getChatToImg() {
-        return chatToImg;
+    public int getIsComing() {
+        return isComing;
     }
 
-    public void setChatToImg(String chatToImg) {
-        this.chatToImg = chatToImg;
-    }
-
-    public String getChatToLocation() {
-        return chatToLocation;
-    }
-
-    public void setChatToLocation(String chatToLocation) {
-        this.chatToLocation = chatToLocation;
-    }
-
-    public String getChatToContent() {
-        return chatToContent;
-    }
-
-    public void setChatToContent(String chatToContent) {
-        this.chatToContent = chatToContent;
+    public void setIsComing(int isComing) {
+        this.isComing = isComing;
     }
 }
