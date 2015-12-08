@@ -8,6 +8,7 @@ package vi.org.imxmppchattest.model;
 public class Friends {
 
     private String name;
+    private String mood;
     private String status;
     private String url;
 
@@ -33,5 +34,13 @@ public class Friends {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getMood() {
+        return mood;
+    }
+
+    public void setMood(String mood) {
+        this.mood = mood;
     }
 }

@@ -1,4 +1,4 @@
-package vi.org.imxmppchattest;
+package vi.org.imxmppchattest.activity;
 
 /**
  * Created by Vicky on 2015/12/2.

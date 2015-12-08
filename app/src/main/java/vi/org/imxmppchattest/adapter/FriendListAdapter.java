@@ -65,6 +65,7 @@ public class FriendListAdapter extends BaseAdapter {
             viewHolder.friendImage  = (ImageView)convertView.findViewById(R.id.friend_image);
             viewHolder.name = (TextView)convertView.findViewById(R.id.friend_name);
             viewHolder.status = (TextView)convertView.findViewById(R.id.friend_status);
+            viewHolder.mood = (TextView)convertView.findViewById(R.id.friend_mood);
             convertView.setTag(viewHolder);
         }
         else {
@@ -72,8 +73,8 @@ public class FriendListAdapter extends BaseAdapter {
         }
         viewHolder.friendImage.setImageResource(R.mipmap.ic_launcher);
         viewHolder.name.setText(friendsArrayList.get(position).getName());
-        viewHolder.status.setText(friendsArrayList.get(position).getStatus());
-
+        viewHolder.status.setText(friendsArrayList.get(position).getMood());
+        viewHolder.mood.setText(friendsArrayList.get(position).getStatus());
         return convertView;
     }
 
@@ -81,5 +82,6 @@ public class FriendListAdapter extends BaseAdapter {
         ImageView friendImage;
         TextView name;
         TextView status;
+        TextView mood;
     }
 }

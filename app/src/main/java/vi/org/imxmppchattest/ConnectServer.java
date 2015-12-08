@@ -6,6 +6,7 @@ import android.util.Log;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.packet.Presence;
 
 /**
  * Created by Vicky on 2015/12/2.
@@ -52,27 +53,16 @@ public class ConnectServer {
      */
     public void login(final String name,final String pwd)
     {
-        /*new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    if(xmppConnection != null)
-                    {
-                        xmppConnection.login(name, pwd);
-                        Log.i(TAG,"login success");
-                    }
-                }
-                catch (XMPPException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        }).start();*/
         try {
             if(xmppConnection != null)
             {
                 xmppConnection.login(name, pwd);
-                Log.i(TAG,"login success");
+                Log.i(TAG, "login success");
+                //type,status,priority,mode
+                //在qqdemo里面取到的是“online”这个参数
+                Presence presence = new Presence(Presence.Type.available);
+                presence.setMode(Presence.Mode.dnd);
+                xmppConnection.sendPacket(presence);
             }
         }
         catch (XMPPException e)
@@ -80,4 +70,24 @@ public class ConnectServer {
             e.printStackTrace();
         }
     }
+
+    /**
+     * 注销当前用户
+     *
+     * @param connection
+     * @return
+     */
+    public static boolean deleteAccount(XMPPConnection connection)
+    {
+        try {
+            connection.getAccountManager().deleteAccount();
+            Log.i("logout","logout success");
+            return true;
+        }catch (XMPPException e)
+        {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
+

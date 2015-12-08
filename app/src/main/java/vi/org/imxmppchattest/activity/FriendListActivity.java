@@ -1,9 +1,10 @@
-package vi.org.imxmppchattest;
+package vi.org.imxmppchattest.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import org.jivesoftware.smack.Roster;
@@ -13,8 +14,9 @@ import org.jivesoftware.smack.packet.Presence;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
+import vi.org.imxmppchattest.ConnectServer;
+import vi.org.imxmppchattest.R;
 import vi.org.imxmppchattest.adapter.FriendListAdapter;
 import vi.org.imxmppchattest.model.Friends;
 import vi.org.imxmppchattest.model.FriendsGroup;
@@ -24,7 +26,7 @@ import vi.org.imxmppchattest.model.FriendsGroup;
  * IMXmppChatTest
  * contact way: 317461087@qq.com
  */
-public class FriendListActivity extends Activity{
+public class FriendListActivity extends Activity implements AdapterView.OnItemClickListener{
 
     private ListView contacts;
     private FriendListAdapter adapter;
@@ -34,11 +36,19 @@ public class FriendListActivity extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.friend_list_activity);
+        setContentView(R.layout.activity_friend_list);
 
         contacts = (ListView)findViewById(R.id.contacts_lv);
         getFriends();
+        adapter = new FriendListAdapter(this,friendsArrayList);
+        contacts.setAdapter(adapter);
+        contacts.setOnItemClickListener(this);
+
     }
+
+    /**
+     * 拿到好友列表
+     */
     private void getFriends()
     {
         Roster roster = ConnectServer.xmppConnection.getRoster();
@@ -54,14 +64,23 @@ public class FriendListActivity extends Activity{
             friendsArrayList = new ArrayList<Friends>();
             for(RosterEntry entry:entries)
             {
-                //互相为好友？
+                //The user and the contact have subscriptions to each other's presence (also called a "mutual subscription").
                 if(entry.getType().name().equals("both"))
                 {
                     Log.i("userId",entry.getUser());//guest@192.168.10.111
                     Presence presence = roster.getPresence(entry.getUser());
                     Friends friends = new Friends();
                     friends.setName(entry.getUser().split("@")[0]);
-//                    entry.getStatus().toString(); 这不是状态
+                    //getStatus 是心情，不知道怎么回事一直是null,presence.setStatus("")再试试
+                    /*if(!TextUtils.isEmpty(presence.getStatus()))
+                    {
+                        Log.i("mode",presence.getStatus());
+                        friends.setStatus(presence.getStatus());
+                    }
+                    else {
+                        friends.setStatus("none");
+                    }*/
+                    //获取在线模式
                     /*
                     chat,
                     available,
@@ -69,6 +88,7 @@ public class FriendListActivity extends Activity{
                     xa,
                     dnd;
                      */
+                    //不直到在何种情况下是null，会崩溃
                     if(presence.getMode() != null)
                     {
                         Log.i("mode",presence.getMode().toString());
@@ -77,6 +97,14 @@ public class FriendListActivity extends Activity{
                     else {
                         friends.setStatus("none");
                     }
+                    //获取是否在线
+                    if(presence.isAvailable())
+                    {
+                        friends.setMood("online");
+                    }
+                    else {
+                        friends.setMood("offline");
+                    }
                     //这里面其实有个entry.getName()
                     friendsArrayList.add(friends);
                 }
@@ -84,7 +112,10 @@ public class FriendListActivity extends Activity{
             friendsGroup.setFriends(friendsArrayList);
             groupArrayList.add(friendsGroup);
         }
-        adapter = new FriendListAdapter(this,friendsArrayList);
-        contacts.setAdapter(adapter);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
     }
 }

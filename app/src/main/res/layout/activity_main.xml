@@ -27,7 +27,30 @@
     <Button
         android:id="@+id/contacts_btn"
         android:layout_below="@+id/login_btn"
-        android:text="好友列表"
+        android:text="vic好友列表"
+        android:textSize="20sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/login_btn2"
+        android:layout_below="@+id/contacts_btn"
+        android:text="登录guest"
+        android:textSize="20sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/contacts_btn2"
+        android:layout_below="@+id/login_btn2"
+        android:text="guest好友列表"
+        android:textSize="20sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/delete_account"
+        android:layout_below="@+id/contacts_btn2"
+        android:text="注销用户"
         android:textSize="20sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
