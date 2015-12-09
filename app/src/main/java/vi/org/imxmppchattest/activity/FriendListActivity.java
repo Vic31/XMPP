@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
@@ -126,8 +127,9 @@ public class FriendListActivity extends Activity implements AdapterView.OnItemCl
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Toast.makeText(FriendListActivity.this,"id: "+friendsArrayList.get(position).getName(),Toast.LENGTH_LONG).show();
         Intent intent = new Intent(FriendListActivity.this,ChatActivity.class);
-        intent.putExtra(Constant.toId,friendsArrayList.get(position).getName());
+        intent.putExtra(Constant.fromId,friendsArrayList.get(position).getName());
         startActivity(intent);
     }
 }

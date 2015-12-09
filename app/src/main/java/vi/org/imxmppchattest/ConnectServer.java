@@ -1,13 +1,18 @@
 package vi.org.imxmppchattest;
 
+import android.content.Context;
 import android.nfc.Tag;
 import android.util.Log;
 
+import org.jivesoftware.smack.Chat;
+import org.jivesoftware.smack.ChatManager;
+import org.jivesoftware.smack.ChatManagerListener;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Presence;
 
+import vi.org.imxmppchattest.InterfaceListener.MyMessageListener;
 import vi.org.imxmppchattest.util.Constant;
 import vi.org.imxmppchattest.util.PreferencesUtils;
 
@@ -17,6 +22,8 @@ import vi.org.imxmppchattest.util.PreferencesUtils;
  * contact way: 317461087@qq.com
  */
 public class ConnectServer {
+
+    private Context mContext;
     private String TAG = "ConnectServer";
 
     private ConnectionConfiguration config;
@@ -25,8 +32,9 @@ public class ConnectServer {
     /**
      * 连接服务器
      */
-    public void ConnectServer()
+    public void ConnectServer(Context context)
     {
+        this.mContext = context;
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -73,12 +81,30 @@ public class ConnectServer {
         }
         if(xmppConnection.isAuthenticated()) {
             Log.i(TAG, "login success");
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    ChatManager chatManager = xmppConnection.getChatManager();
+                    chatManager.addChatListener(new MyChatManagerListener());
+                }
+            });
+            thread.start();
         }
         else {
             Log.i(TAG, "login failed");
         }
     }
 
+    /**
+     *消息监听器
+     */
+    private class MyChatManagerListener implements ChatManagerListener
+    {
+        @Override
+        public void chatCreated(Chat chat, boolean b) {
+            chat.addMessageListener(new MyMessageListener(mContext));
+        }
+    }
     /**
      * 注销当前用户
      *

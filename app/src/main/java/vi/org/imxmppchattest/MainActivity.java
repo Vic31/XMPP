@@ -6,6 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import org.jivesoftware.smack.Chat;
+import org.jivesoftware.smack.ChatManager;
+import org.jivesoftware.smack.ChatManagerListener;
+
+import vi.org.imxmppchattest.InterfaceListener.MyMessageListener;
 import vi.org.imxmppchattest.activity.FriendListActivity;
 import vi.org.imxmppchattest.util.Constant;
 import vi.org.imxmppchattest.util.PreferencesUtils;
@@ -46,13 +51,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {
             case R.id.connect_btn:
                 connectServer = new ConnectServer();
-                connectServer.ConnectServer();
+                connectServer.ConnectServer(MainActivity.this);
                 break;
             case R.id.login_btn:
-                connectServer.login(name,pwd);
-                PreferencesUtils.putSharePre(this, Constant.fromId, name);
+                connectServer.login(name, pwd);
+                PreferencesUtils.putSharePre(this, Constant.toId, name);
                 PreferencesUtils.putSharePre(this,Constant.pwd,pwd);
-
                 break;
             case R.id.contacts_btn:
                 Intent intent = new Intent(this,FriendListActivity.class);

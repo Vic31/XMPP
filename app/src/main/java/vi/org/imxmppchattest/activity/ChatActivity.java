@@ -13,16 +13,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManager;
+import org.jivesoftware.smack.ChatManagerListener;
+import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.packet.Message;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 import vi.org.imxmppchattest.ConnectServer;
+import vi.org.imxmppchattest.InterfaceListener.MyMessageListener;
 import vi.org.imxmppchattest.R;
 import vi.org.imxmppchattest.adapter.ChatAdapter;
 import vi.org.imxmppchattest.model.ChatMsgShow;
@@ -49,16 +54,16 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private NewMsgReceiver newMsgReceiver;
 
     //
-    private String toId;
-    private String fromId;
+    private String Me;
+    private String You;
 
 
     private void initIdData()
     {
         //myself
-        toId = getIntent().getStringExtra(Constant.toId);
+        You = getIntent().getStringExtra(Constant.fromId);
         //other
-        fromId = PreferencesUtils.getSharePreStr(this,"fromId");
+        Me = PreferencesUtils.getSharePreStr(this,Constant.toId);
     }
 
     @Override
@@ -115,6 +120,12 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         registerReceiver(newMsgReceiver,intentFilter);
     }
 
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(newMsgReceiver);
+        super.onDestroy();
+    }
+
     private class NewMsgReceiver extends BroadcastReceiver{
         public NewMsgReceiver() {
             super();
@@ -123,10 +134,21 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void onReceive(Context context, Intent intent) {
             //取到接收到的数据后，添加到chatMsgList，更新listview
-
+            Bundle bundle = intent.getBundleExtra(Constant.MESSAGE_RECEIVE);
+            ChatMsgShow message = new ChatMsgShow();
+            message = (ChatMsgShow)bundle.getSerializable(Constant.MESSAGE_RECEIVE);
+            chatList.add(message);
+            chatAdapter.notifyDataSetChanged();
         }
     }
 
+    private class MyChatManagerListener implements ChatManagerListener
+    {
+        @Override
+        public void chatCreated(Chat chat, boolean b) {
+            chat.addMessageListener(new MyMessageListener(ChatActivity.this));
+        }
+    }
     /**
      * 发送消息内容函数
      * @param content  填写的消息内容
@@ -135,8 +157,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     {
         ChatMsgShow msg = new ChatMsgShow();
         String time = dateFormat.format(new Date());
-        msg.setFromUser(fromId);
-        msg.setToUser(toId);
+        msg.setFromUser(You);
+        msg.setToUser(Me);
         msg.setDate(time);
         msg.setContent(content);
         msg.setIsComing(1);
@@ -144,9 +166,12 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         chatList.add(msg);
         chatAdapter.notifyDataSetChanged();
-
-        final String message = fromId + Constant.SPLIT + toId + Constant.SPLIT + Constant.MSG_TYPE_TEXT
+        //You:别人  Me:我
+        final String message = You + Constant.SPLIT + Me + Constant.SPLIT + Constant.MSG_TYPE_TEXT
                 + Constant.SPLIT + content + Constant.SPLIT + time;
+        Toast.makeText(ChatActivity.this,"me id: "+Me,Toast.LENGTH_LONG).show();
+        Toast.makeText(ChatActivity.this,"id: "+You+"@"+Constant.HOST,Toast.LENGTH_LONG).show();
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -155,7 +180,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                         throw new XMPPException();
                     }
                     ChatManager chatManager = ConnectServer.xmppConnection.getChatManager();
-                    Chat chat = chatManager.createChat(fromId+"@"+ Constant.HOST,null);
+                    Chat chat = chatManager.createChat(You + "@" + Constant.HOST, new MyMessageListener(ChatActivity.this));
+//                    chatManager.addChatListener(new MyChatManagerListener());
                     if(chat != null)
                     {
                         chat.sendMessage(message);
@@ -169,7 +195,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             }
         }).start();
         inputMsg.setText("");
-        Intent intent = new Intent(Constant.ACTION_MSG_RECEIVER);
-        sendBroadcast(intent);
+        /*Intent intent = new Intent(Constant.ACTION_MSG_RECEIVER);
+        sendBroadcast(intent);*/
     }
 }
