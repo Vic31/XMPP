@@ -89,12 +89,14 @@ public class ChatAdapter extends BaseAdapter {
             viewHolder.chatToContainer.setVisibility(View.GONE);
             viewHolder.chatFromContainer.setVisibility(View.VISIBLE);
             viewHolder.chatFromText.setText(chatList.get(position).getContent());
+            viewHolder.chatFromText.setBackgroundResource(R.drawable.icon_jw_chatting_from_bg_nor);
         }
         else {
             //发送的消息： 1
             viewHolder.chatFromContainer.setVisibility(View.GONE);
             viewHolder.chatToContainer.setVisibility(View.VISIBLE);
             viewHolder.chatToText.setText(chatList.get(position).getContent());
+            viewHolder.chatToText.setBackgroundResource(R.drawable.icon_jw_chatting_to_bg_nor);
         }
         return convertView;
     }

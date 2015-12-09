@@ -13,7 +13,7 @@ public class Constant {
     //取别人的Id
     public static String fromId = "fromId";
     public static String pwd = "pwd";
-    //取登录人的Id
+    //自己
     public static String toId = "toId";
 
     //Broadcast action 接收消息器
@@ -25,7 +25,7 @@ public class Constant {
     public static final String MSG_TYPE_LOCATION="msg_type_location";//位置
 
     //message分隔符
-    public static final String SPLIT = "#$#";
+    public static final String SPLIT = "卍";
 
     //接收消息bundle和intent的关键字
     public static final String MESSAGE_RECEIVE = "msg";

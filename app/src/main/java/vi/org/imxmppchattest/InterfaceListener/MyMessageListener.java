@@ -35,7 +35,7 @@ public class MyMessageListener implements MessageListener{
         {
             return;
         }
-        String[] msgs = msgBody.split(Constant.SPLIT);
+        String[] msgs = msgBody.split(Constant.SPLIT,-1);
         //接收者
         String to = msgs[0];
         //发送者

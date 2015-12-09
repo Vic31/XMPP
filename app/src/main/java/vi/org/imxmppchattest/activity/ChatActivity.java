@@ -180,7 +180,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                         throw new XMPPException();
                     }
                     ChatManager chatManager = ConnectServer.xmppConnection.getChatManager();
-                    Chat chat = chatManager.createChat(You + "@" + Constant.HOST, new MyMessageListener(ChatActivity.this));
+                    Chat chat = chatManager.createChat(You + "@" + Constant.HOST, null);
 //                    chatManager.addChatListener(new MyChatManagerListener());
                     if(chat != null)
                     {

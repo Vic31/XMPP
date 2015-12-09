@@ -81,6 +81,8 @@ public class ConnectServer {
         }
         if(xmppConnection.isAuthenticated()) {
             Log.i(TAG, "login success");
+            PreferencesUtils.putSharePre(mContext, Constant.toId, name);
+            PreferencesUtils.putSharePre(mContext, Constant.pwd, pwd);
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {

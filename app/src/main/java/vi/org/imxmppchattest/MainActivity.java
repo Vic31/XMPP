@@ -55,8 +55,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.login_btn:
                 connectServer.login(name, pwd);
-                PreferencesUtils.putSharePre(this, Constant.toId, name);
-                PreferencesUtils.putSharePre(this,Constant.pwd,pwd);
                 break;
             case R.id.contacts_btn:
                 Intent intent = new Intent(this,FriendListActivity.class);
