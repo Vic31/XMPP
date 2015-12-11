@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <ListView
         android:id="@+id/chat_lv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/msg_linear"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:divider="@null"
-        android:transcriptMode="alwaysScroll"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
+        android:transcriptMode="normal"
+        />
     <LinearLayout
         android:id="@+id/msg_linear"
+        android:layout_below="@+id/chat_lv"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_height="@dimen/chat_input_component_height"
+        >
         <ImageView
             android:id="@+id/add_function"
-            android:src="@mipmap/ic_launcher"
+            android:src="@mipmap/chat_add_normal"
+            android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <ImageView
             android:id="@+id/face_function"
-            android:src="@mipmap/ic_launcher"
+            android:src="@mipmap/chat_emo_normal"
+            android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <EditText
@@ -35,11 +35,17 @@
             android:id="@+id/input_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <Button
+        <ImageView
             android:id="@+id/send_btn"
-            android:text="发送"
-            android:textSize="20sp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:src="@mipmap/chat_send"
+            android:layout_gravity="center_vertical"
+            />
     </LinearLayout>
-</RelativeLayout>
+    <include
+        android:id="@+id/add_function_view"
+        layout="@layout/layout_addfunction"
+        android:visibility="gone"
+        />
+</LinearLayout>

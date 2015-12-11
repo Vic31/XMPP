@@ -1,5 +1,7 @@
 package vi.org.imxmppchattest.util;
 
+import java.security.PublicKey;
+
 /**
  * Created by Vicky on 2015/12/8.
  * IMXmppChatTest
@@ -29,5 +31,8 @@ public class Constant {
 
     //接收消息bundle和intent的关键字
     public static final String MESSAGE_RECEIVE = "msg";
+
+    public static final int CAMERA = 1;
+    public static final int GALLERY = 2;
 
 }
